@@ -1,0 +1,9 @@
+hpatest:
+  requests:
+    cpu: "200m"
+    memory: "200Mi"
+  limits:
+    cpu: "400m"
+    memory: "400Mi"
+  minReplicas: 3
+  maxReplicas: 7

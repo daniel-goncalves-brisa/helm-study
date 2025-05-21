@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: test-hpa-depl
+  namespace: default
+spec:
+  selector:
+    matchLabels:
+      app: test-hpa-pod
+  template:
+    metadata:
+      labels:
+        app: test-hpa-pod
+    spec:
+      restartPolicy: Always
+      containers:
+        - name: test-hpa
+          image: vish/stress
+          imagePullPolicy: IfNotPresent
+          args:
+            - -cpus
+            - "1"
+          resources:
+            requests:
+              cpu: {{ .Values.hpatest.requests.cpu | quote }}
+              memory: {{ .Values.hpatest.requests.memory | quote }}
+            limits:
+              cpu: {{ .Values.hpatest.limits.cpu | quote }}
+              memory: {{ .Values.hpatest.limits.memory | quote }}
+          readinessProbe:
+          livenessProbe:
