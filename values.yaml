@@ -7,3 +7,22 @@ hpatest:
     memory: "400Mi"
   minReplicas: 3
   maxReplicas: 7
+
+deployment:
+  name: hpa-test
+  namespace: default
+  image: vish/stress
+  imagePullPolicy: IfNotPresent
+  restartPolicy: Always
+  containerLabels:
+    app: teste-hpa
+  resources:
+    requests:
+      cpu: "200m"
+      memory: "200Mi"
+    limits:
+      cpu: "400m"
+      memory: "400Mi"
+  args:
+  - -cpus
+  - "1"

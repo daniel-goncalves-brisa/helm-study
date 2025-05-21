@@ -6,7 +6,7 @@ spec:
   scaleTargetRef:
     apiVersion: apps/v1
     kind: Deployment
-    name: test-hpa-depl
+    name: {{ .Values.deployment.name }}
   minReplicas: {{ .Values.hpatest.minReplicas }}
   maxReplicas: {{ .Values.hpatest.maxReplicas }}
   metrics:
