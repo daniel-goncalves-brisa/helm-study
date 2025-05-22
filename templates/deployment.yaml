@@ -29,4 +29,19 @@ spec:
               cpu: {{ .Values.hpatest.limits.cpu | quote }}
               memory: {{ .Values.hpatest.limits.memory | quote }}
           readinessProbe:
+            exec:
+              command:
+                - /bin/sh
+                - -c
+                - "echo 'ready'"
+            initialDelaySeconds: 5
+            periodSeconds: 5
+            failureThreshold: 3
           livenessProbe:
+            exec:
+              command:
+                - cat
+                - /tmp/healthy
+            initialDelaySeconds: 5
+            periodSeconds: 5
+            failureThreshold: 3
