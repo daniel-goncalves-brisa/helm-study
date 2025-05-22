@@ -28,20 +28,21 @@ spec:
             limits:
               cpu: {{ .Values.hpatest.limits.cpu | quote }}
               memory: {{ .Values.hpatest.limits.memory | quote }}
+          {{- if .Values.deployment.readinessProbe.enabled | default false }}
           readinessProbe:
-            exec:
-              command:
-                - /bin/sh
-                - -c
-                - "echo 'ready'"
-            initialDelaySeconds: 5
-            periodSeconds: 5
-            failureThreshold: 3
+            httpGet:
+              path: "{{ .Values.deployment.readinessProbe.httpGet.path | default "/ready" }}"
+              port: {{ .Values.deployment.readinessProbe.httpGet.port | default 80 }}
+            initialDelaySeconds: {{ .Values.deployment.readinessProbe.initialDelaySeconds | default 5 }}
+            periodSeconds: {{ .Values.deployment.readinessProbe.periodSeconds | default 5 }}
+            failureThreshold: {{ .Values.deployment.readinessProbe.failureThreshold | default 3 }}
+          {{- end  }}
+          {{- if .Values.deployment.livenessProbe.enabled | default false }}
           livenessProbe:
-            exec:
-              command:
-                - cat
-                - /tmp/healthy
-            initialDelaySeconds: 5
-            periodSeconds: 5
-            failureThreshold: 3
+            httpGet:
+              path: {{ .Values.deployment.livenessProbe.httpGet.path | default "/health" }}
+              port: {{ .Values.deployment.livenessProbe.httpGet.port | default 80 }}
+            initialDelaySeconds: {{ .Values.deployment.livenessProbe.initialDelaySeconds | default 10 }}
+            periodSeconds: {{ .Values.deployment.livenessProbe.periodSeconds | default 5 }}
+            failureThreshold: {{ .Values.deployment.livenessProbe.failureThreshold | default 3 }}
+          {{- end  }}

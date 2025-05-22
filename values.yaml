@@ -9,13 +9,13 @@ hpatest:
   maxReplicas: 7
 
 deployment:
-  name: hpa-test
+  name: read-live-test
   namespace: default
-  image: vish/stress
+  image: nginx
   imagePullPolicy: IfNotPresent
   restartPolicy: Always
   containerLabels:
-    app: teste-hpa
+    app: read-live-test-nginx
   resources:
     requests:
       cpu: "200m"
@@ -24,5 +24,19 @@ deployment:
       cpu: "400m"
       memory: "400Mi"
   args:
-  - -cpus
-  - "1"
+  readinessProbe:
+    enabled: true
+    httpGet:
+      path: /
+      port: 80
+    initialDelaySeconds: 5
+    periodSeconds: 5
+    failureThreshold: 3
+  livenessProbe:
+    enabled: true
+    httpGet:
+      path: /
+      port: 80
+    initialDelaySeconds: 5
+    periodSeconds: 5
+    failureThreshold: 3
