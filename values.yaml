@@ -1,6 +1,6 @@
 hpa:
   enable: true
-  minReplicas: 4
+  minReplicas: 3
   maxReplicas: 7
   cpu:
     averageUtilization: 50
