@@ -1,19 +1,17 @@
-hpatest:
-  requests:
-    cpu: "200m"
-    memory: "200Mi"
-  limits:
-    cpu: "400m"
-    memory: "400Mi"
-  minReplicas: 3
+hpa:
+  enable: true
+  minReplicas: 4
   maxReplicas: 7
+  metrics:
+    cpu:
+      averageUtilization: 50
 
 deployment:
+  enable: true
   image: nginx
   imagePullPolicy: IfNotPresent
+  replicas: 3
   restartPolicy: Always
-  containerLabels:
-    app: read-live-test-nginx
   resources:
     requests:
       cpu: "200m"

@@ -1,9 +1,11 @@
+{{- if .Values.deployment.enable | default false }}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: {{ .Release.Name }}
   namespace: {{ .Release.Namespace }}
 spec:
+  replicas: {{ .Values.deployment.replicas }}
   selector:
     matchLabels:
       app: {{ .Release.Name }}
@@ -23,11 +25,11 @@ spec:
             {{- end }}
           resources:
             requests:
-              cpu: {{ .Values.hpatest.requests.cpu }}
-              memory: {{ .Values.hpatest.requests.memory }}
+              cpu: {{ .Values.deployment.resources.requests.cpu }}
+              memory: {{ .Values.deployment.resources.requests.memory }}
             limits:
-              cpu: {{ .Values.hpatest.limits.cpu }}
-              memory: {{ .Values.hpatest.limits.memory }}
+              cpu: {{ .Values.deployment.resources.limits.cpu }}
+              memory: {{ .Values.deployment.resources.limits.memory }}
           {{- if .Values.deployment.readinessProbe.enabled | default false }}
           readinessProbe:
             httpGet:
@@ -46,3 +48,4 @@ spec:
             periodSeconds: {{ .Values.deployment.livenessProbe.periodSeconds | default 5 }}
             failureThreshold: {{ .Values.deployment.livenessProbe.failureThreshold | default 3 }}
           {{- end  }}
+{{- end }}
