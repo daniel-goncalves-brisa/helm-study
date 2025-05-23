@@ -2,9 +2,10 @@ hpa:
   enable: true
   minReplicas: 4
   maxReplicas: 7
-  metrics:
-    cpu:
-      averageUtilization: 50
+  cpu:
+    averageUtilization: 50
+  memory:
+    averageUtilization: 75
 
 deployment:
   enable: true
