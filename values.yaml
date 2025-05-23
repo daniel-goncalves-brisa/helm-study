@@ -9,8 +9,6 @@ hpatest:
   maxReplicas: 7
 
 deployment:
-  name: read-live-test
-  namespace: default
   image: nginx
   imagePullPolicy: IfNotPresent
   restartPolicy: Always
