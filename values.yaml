@@ -1,12 +1,3 @@
-hpa:
-  enable: true
-  minReplicas: 3
-  maxReplicas: 7
-  cpu:
-    averageUtilization: 50
-  memory:
-    averageUtilization: 75
-
 deployment:
   enable: true
   image: nginx
@@ -37,3 +28,34 @@ deployment:
     initialDelaySeconds: 5
     periodSeconds: 5
     failureThreshold: 3
+
+hpa:
+  enable: true
+  minReplicas: 3
+  maxReplicas: 7
+  cpu:
+    averageUtilization: 50
+  memory:
+    averageUtilization: 75
+
+service:
+  enable: true
+  type: ClusterIP
+  ports:
+  - targetPort: 80
+    port: 80
+    protocol: TCP
+    name: http
+      
+ingress:
+  enable: true
+  rules:
+    - host: dashboard.com
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                port:
+                  number: 80

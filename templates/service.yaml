@@ -1,0 +1,26 @@
+{{- if .Values.service.enable }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Release.Name }}
+  namespace: {{ .Release.Namespace }}
+spec:
+  type: {{ .Values.service.type | default "ClusterIP" }}
+  selector:
+    app: {{ .Release.Name }}
+  ports:
+    {{- if .Values.service.ports  }}
+    {{- range .Values.service.ports }}
+        - 
+    {{- range $key, $value := . }}
+          {{ $key }}: {{ $value }}
+    {{- end }}
+    {{- end }}
+    {{- else }}
+      - name: http
+        port: 80
+        targetPort: 80
+        protocol: TCP
+    {{- end }}
+
+{{- end }}

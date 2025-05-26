@@ -33,7 +33,7 @@ spec:
           {{- if .Values.deployment.readinessProbe.enabled | default false }}
           readinessProbe:
             httpGet:
-              path: "{{ .Values.deployment.readinessProbe.httpGet.path | default "/ready" }}"
+              path: {{ .Values.deployment.readinessProbe.httpGet.path | default "/ready" }}
               port: {{ .Values.deployment.readinessProbe.httpGet.port | default 80 }}
             initialDelaySeconds: {{ .Values.deployment.readinessProbe.initialDelaySeconds | default 5 }}
             periodSeconds: {{ .Values.deployment.readinessProbe.periodSeconds | default 5 }}
