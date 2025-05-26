@@ -42,11 +42,11 @@ service:
   enable: true
   type: ClusterIP
   ports:
-  - targetPort: 80
-    port: 80
+  - name: http
     protocol: TCP
-    name: http
-      
+    port: 80
+    targetPort: 80
+    
 ingress:
   enable: true
   rules:
